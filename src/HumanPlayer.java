@@ -4,8 +4,8 @@ import javax.swing.ImageIcon;
 
 public class HumanPlayer extends Player{
 
-	public HumanPlayer(int cellSize) {
-		super(cellSize);
+	public HumanPlayer(int cellSize, int height, int width) {
+		super(cellSize, height, width);
 		left = cellSize;
 		right =3/2 * cellSize;
 		up = cellSize;

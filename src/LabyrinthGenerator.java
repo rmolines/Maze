@@ -9,39 +9,24 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.*;
-
 import javax.swing.JFrame;
 
 public class LabyrinthGenerator {
-<<<<<<< HEAD
 	private static final int WIDTH = 15;
 	private static final int HEIGHT = 10;	
 
-	private static ArrayList<ArrayList<String>> matriz = new ArrayList<ArrayList<String>>(20);
+	private static ArrayList<String> matriz = new ArrayList<String>();
 	
 	private static File file = new File("C:/Users/Rafael/Documents/GitHub/Projeto1-Hashimoto/Labirinth Generator/labyrinth.txt");
 
 	private static void createMatrix() {
 		try {
-			matriz.add(new ArrayList<String>());
 			BufferedReader in = new BufferedReader(new FileReader(file));
-			int p;
-			int column = 0;
-			int line = 0;
-			while((p = in.read()) != -1)
+			String line;
+			
+			while((line = in.readLine()) != null)
 			{
-				matriz.get(line).add (Character.toString((char) p));
-			    column ++;
-				System.out.println(in.readLine());
-				System.out.println("a");
-
-			    if (in.readLine() != null && column == in.readLine().length() ) {
-			    	column = 0;
-			    	line ++;
-					matriz.add(new ArrayList<String>());
-					System.out.println("a");
-			    }
+				matriz.add (line);
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -52,10 +37,7 @@ public class LabyrinthGenerator {
 			e.printStackTrace();
 		} 
 	}
-=======
-	protected static final int WIDTH = 15;
-	protected static final int HEIGHT = 10;
->>>>>>> origin/master
+	
 	
 
     public static void main(String[] args) {
