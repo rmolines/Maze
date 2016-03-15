@@ -1,12 +1,13 @@
+import java.sql.Array;
 import java.util.ArrayList;
 
-public class Marker {
+public class Cross {
 	private ArrayList<Integer> marker = new ArrayList<>();
 	
-	public Marker (int marker, Array<Integer>){
-		this.marker.add(marker);
-		this.marker.add(x);
-		this.marker.add(y);
+	public Cross (int [] position){
+		this.marker.add(1);
+		this.marker.add(position[0]);
+		this.marker.add(position[1]);
 	}
 	
 	public ArrayList<Integer> getMarker() {
