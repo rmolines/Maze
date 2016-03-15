@@ -15,7 +15,7 @@ public class LabyrinthGenerator {
 	private static final int WIDTH = 15;
 	private static final int HEIGHT = 10;	
 
-	private static ArrayList<String> matriz = new ArrayList<String>();
+	private static ArrayList<String> matrix = new ArrayList<String>();
 	
 	private static File file = new File("C:/Users/Rafael/Documents/GitHub/Projeto1-Hashimoto/Labirinth Generator/labyrinth.txt");
 
@@ -23,10 +23,11 @@ public class LabyrinthGenerator {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			String line;
+			matrix.add("#####################################");
 			
 			while((line = in.readLine()) != null)
 			{
-				matriz.add (line);
+				matrix.add("#"+line+"#");
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -36,6 +37,9 @@ public class LabyrinthGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
+		matrix.add("########################################");
+
 	}
 	
 	
@@ -138,13 +142,11 @@ public class LabyrinthGenerator {
 		writer.close();
 		
 		createMatrix();
-
-		System.out.println(matriz);
 		
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Screen screen = new Screen(labyrinth);
+                Screen screen = new Screen(labyrinth, matrix);
                 JFrame frame = new JFrame("Labyrinth Generator");
                 frame.addKeyListener(screen);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
