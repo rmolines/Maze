@@ -70,6 +70,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		CPUPlayer.checkAndGo();
+
+		
 		try {
 			TimeUnit.MILLISECONDS.sleep(100);
 		} catch (InterruptedException e) {

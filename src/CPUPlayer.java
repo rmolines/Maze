@@ -1,14 +1,20 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 public class CPUPlayer extends Player {
 	private char wall = '#';
 	private Stack<Move> stack = new Stack<>();
 	boolean returnCross = false;
+	private int[] init = {0,0};
+	private boolean cross = false;
+
+
 	
 	
 	public CPUPlayer(int cellSize, int width, int height, ArrayList<String> matrix) {
 		super(cellSize, width, height, matrix);
+		stack.push(new Move(init, false));
 	}
 	
 	public void checkAndGo() {
@@ -17,58 +23,71 @@ public class CPUPlayer extends Player {
 		boolean upWall = matrix.get(position[1]-1).charAt(position[0]) == wall;
 		boolean downWall = matrix.get(position[1]+1).charAt(position[0]) == wall;
 		int numberOfWalls = ((leftWall)?1:0)+((rightWall)?1:0)+((upWall)?1:0)+((downWall)?1:0);
-		if (numberOfWalls == 3) {
+		
+		if (numberOfWalls == 3 && cross) {
 			returnCross = true;
+
 		}
 		else if (numberOfWalls < 2) {
 			returnCross = false;
-		}
-		if (returnCross && !stack.isEmpty()) {
+			System.out.println("true");
+
+		}		
+
+		if (returnCross) {
 			int[] nextMove = {-stack.peek().getDirection()[0], -stack.peek().getDirection()[1]};
 			stack.pop();
 			move(nextMove);
 		}
 		else if (numberOfWalls < 2) {
-			if (!leftWall && stack.peek().getDirection() != leftVector) {
-				stack.push(new Move(leftVector, true));
+			if (!leftWall && !Arrays.equals(stack.peek().getDirection(), rightVector)) {
+				cross = true;
+				stack.push(new Move(leftVector, cross));
 				move(leftVector);
 			}
-			if (!rightWall && stack.peek().getDirection() != rightVector) {
-				stack.push(new Move(rightVector, true));
+			else if (!rightWall && !Arrays.equals(stack.peek().getDirection(), leftVector)) {
+				cross = true;
+				stack.push(new Move(rightVector, cross));
 				move(rightVector);
+
 			}
-			if (!upWall && stack.peek().getDirection() != upVector) {
-				stack.push(new Move(upVector, true));
+			else if (!upWall && !Arrays.equals(stack.peek().getDirection(), downVector)) {
+				cross = true;
+				stack.push(new Move(upVector, cross));
 				move(upVector);
+
 			}
-			if (!downWall && stack.peek().getDirection() != downVector) {
-				stack.push(new Move(downVector, true));
+			else if (!downWall && !Arrays.equals(stack.peek().getDirection(), upVector)) {
+				cross = true;
+				stack.push(new Move(downVector, cross));
 				move(downVector);
+
 			}
 		}
-		else if (!leftWall) {
+		else if (!leftWall && !Arrays.equals(stack.peek().getDirection(), rightVector)) {
 			move(leftVector);
-			System.out.print(position[0]);
-			System.out.println(position[1]);
-			System.out.println("Left");
+			stack.push(new Move(leftVector, false));
 		}
-		else if (!rightWall) {
+		else if (!rightWall && !Arrays.equals(stack.peek().getDirection(), leftVector)) {
 			move(rightVector);
-			System.out.print(position[0]);
-			System.out.println(position[1]);
-			System.out.println("Right");
+			stack.push(new Move(rightVector, false));
 		}
-		else if (!upWall) {
+		else if (!upWall && !Arrays.equals(stack.peek().getDirection(), downVector)) {
 			move(upVector);
-			System.out.print(position[0]);
-			System.out.println(position[1]);
-			System.out.println("Up");
+			stack.push(new Move(upVector, false));
 		}
-		else if (!downWall) {
+		else if (!downWall && !Arrays.equals(stack.peek().getDirection(), upVector)) {
 			move(downVector);
-			System.out.print(position[0]);
-			System.out.println(position[1]);
-			System.out.println("Down");
+			stack.push(new Move(downVector, false));
+		}
+		
+		if (numberOfWalls == 3 && cross) {
+			returnCross = true;
+			System.out.println("true");
+
+		}
+		else if (numberOfWalls < 2) {
+			returnCross = false;
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class Move {
 		return marker;
 	}
 	
-	public boolean getIsCross() {
+	public boolean isCross() {
 		return isCross;
 	}
 }
