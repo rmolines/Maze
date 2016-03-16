@@ -1,13 +1,1 @@
-/Cell.class
-/Edge.class
-/HumanPlayer.class
-/LabyrinthGenerator.class
-/Player.class
-/Screen.class
-/img/
-/LabyrinthGenerator$1.class
-/CPUPlayer.class
-/Stack.class
-/Markers.class
-/Marker.class
-/Cross.class
+/Move.class

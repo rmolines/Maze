@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<String> matrix = new ArrayList<String> ();
+	private ArrayList<String> matrix;
 
 	private final static int CELL_SIZE = 25;
 
@@ -22,7 +22,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 	private int height;
 
 	private boolean[][] labyrinth;
-	private HumanPlayer humanPlayer = new HumanPlayer(CELL_SIZE, width, height);
+	private HumanPlayer humanPlayer = new HumanPlayer(CELL_SIZE, width, height, matrix);
 	private CPUPlayer CPUPlayer;
 
 	public Screen(boolean[][] labyrinth, ArrayList<String> matrix) {
@@ -32,7 +32,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 		this.height = this.labyrinth.length;
 		
 		this.matrix = matrix;
-		CPUPlayer = new CPUPlayer(CELL_SIZE, width, height, matrix);
+		CPUPlayer = new CPUPlayer(CELL_SIZE, width, height, this.matrix);
 
 	
 		setPreferredSize(new Dimension(this.width * CELL_SIZE, this.height * CELL_SIZE));
@@ -53,8 +53,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 			for(int j = 0; j < this.width; j++) {
 				int x = j * CELL_SIZE;
 				
-				g.drawImage(humanImage, humanSpriteX - CELL_SIZE / 2, humanSpriteY - CELL_SIZE  / 2, CELL_SIZE , CELL_SIZE , null);
-				g.drawImage(CPUImage, CPUSpriteX - CELL_SIZE / 2, CPUSpriteY - CELL_SIZE  / 2, CELL_SIZE , CELL_SIZE , null);
 
 				
 				if(labyrinth[i][j]) {
@@ -66,9 +64,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 				
 				g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
 				
+				g.drawImage(CPUImage, CPUSpriteX - CELL_SIZE / 2, CPUSpriteY - CELL_SIZE  / 2, CELL_SIZE , CELL_SIZE , null);
+				g.drawImage(humanImage, humanSpriteX - CELL_SIZE / 2, humanSpriteY - CELL_SIZE  / 2, CELL_SIZE , CELL_SIZE , null);
+
 			}
 		}
-		CPUPlayer.move();
+		CPUPlayer.checkAndGo();
 		try {
 			TimeUnit.MILLISECONDS.sleep(100);
 		} catch (InterruptedException e) {
