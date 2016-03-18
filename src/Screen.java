@@ -137,7 +137,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 	    int key = e.getKeyCode();
 
 	   	humanPlayer.playerMove(key);
-	   	repaint();
+	   	repaint();S
 
 	   	getToolkit().sync();
 	}
