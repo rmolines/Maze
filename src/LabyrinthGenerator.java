@@ -15,20 +15,36 @@ public class LabyrinthGenerator {
 	private static final int WIDTH = 15;
 	private static final int HEIGHT = 10;	
 
-	private static ArrayList<String> matrix = new ArrayList<String>();
+	private static boolean[][] nodes;
+	private static boolean[][] nodes2;
+	private static ArrayList<String> matrix = new ArrayList<>();
+	private static ArrayList<int[]> randomList = new ArrayList<>();
+	private static int[] prizeMatrix;
+	private static int[] prize;
 	
-	private static File file = new File("C:/Users/Rafael/Documents/GitHub/Projeto1-Hashimoto/Labirinth Generator/labyrinth.txt");
+	private static File file = new File("src/maze/labyrinth.txt");
 
 	private static void createMatrix() {
 		try {
+			int columns = 0;
+			int rows = 0;
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			String line;
-			matrix.add("#####################################");
 			
 			while((line = in.readLine()) != null)
 			{
+				columns = line.length();
+				rows++;
 				matrix.add("#"+line+"#");
 			}
+			String boundary = "#";
+			
+			for (int i = 0; i<matrix.get(0).length(); i++) {
+				boundary = "#"+boundary;
+			}
+			matrix.add(0, boundary);
+			matrix.add(boundary);
+			
 			in.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -38,8 +54,35 @@ public class LabyrinthGenerator {
 			e.printStackTrace();
 		} 
 		
-		matrix.add("########################################");
+		nodes = new boolean [matrix.get(0).length()][matrix.size()];
+		nodes2 = new boolean [matrix.get(0).length()][matrix.size()];
+		int y = 0;
+		int x = 0;
+		
+		while(y < matrix.size())
+		{
+			if (matrix.get(y).charAt(x) == '#') {
+				nodes[x][y] = false;
+				nodes2[x][y] = false;		
 
+			}
+			else {
+				nodes[x][y] = true;
+				nodes2[x][y] = true;
+				int[] p = {x, y};
+				randomList.add(p);
+			}
+			x++;
+			
+			if (x == matrix.get(y).length()-1) {
+				y++;
+				x = 0;
+			}
+		}
+		Random rand = new Random();
+		int  n = rand.nextInt(randomList.size());
+		prizeMatrix = new int[] {randomList.get(n)[0], randomList.get(n)[1]};
+		prize = new int[] {(int) ((randomList.get(n)[0]*25)-12.5), (int) ((randomList.get(n)[1]*25)-12.5)};
 	}
 	
 	
@@ -73,8 +116,6 @@ public class LabyrinthGenerator {
 				k++;
 			}			
 		}
-		
-
 		
 		
 		Random random = new Random();
@@ -143,10 +184,9 @@ public class LabyrinthGenerator {
 		
 		createMatrix();
 		
-		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Screen screen = new Screen(labyrinth, matrix);
+                Screen screen = new Screen(labyrinth, nodes, nodes2, prize, prizeMatrix);
                 JFrame frame = new JFrame("Labyrinth Generator");
                 frame.addKeyListener(screen);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
